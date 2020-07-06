@@ -1,0 +1,25 @@
+{
+  "name": "textclassification",
+  "version": "0.0.1",
+  "description": "text classification service",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gr0ks/textClassification.git"
+  },
+  "author": "Ilya Petrenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gr0ks/textClassification/issues"
+  },
+  "homepage": "https://github.com/Gr0ks/textClassification#readme"
+}
