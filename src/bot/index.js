@@ -68,6 +68,43 @@ module.exports = class Bot {
     }
   }
 
+  static async classifyFromRequest(id, data) {
+    const bot = await db.readFromDB(id, 'bot')
+    if(bot) {
+      if(data) {
+        const classifierBot = new Bot(bot)
+        const result = await classifierBot.classify(data)
+        if(result) {
+          console.log(chalk.green(`Classify ${bot.id} - ${data}`));
+          return {
+            status: 200,
+            ok: true,
+            answer: result
+          }
+        } else {
+          console.log(chalk.red(`Classify error ${bot.id} - ${bot.name}`));
+          return {
+            status: 500,
+            ok: false,
+            errors: ['Classify error']
+          }
+        }
+      } else {
+        return {
+          status: 400,
+          ok: false,
+          errors: [`Invalid classify data`]
+        }
+      }
+    } else {
+      return {
+        status: 400,
+        ok: false,
+        errors: [`Bot ${id} not found`]
+      }
+    }
+  }
+
   async train() {
     const trainData = await db.readFromDB(this.id, 'trainData')
     const data = {}
@@ -81,6 +118,12 @@ module.exports = class Bot {
     });
     const classifier = new Classifier()
     classifier.train(this.id, data)
+  }
+
+  async classify(data) {
+    const classifier = new Classifier()
+    const result = await classifier.classify(this.id, data)
+    return result
   }
 
   async saveToDB() {

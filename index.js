@@ -32,8 +32,27 @@ app.post('/api/trainClassifier', async (req, res) => {
     console.log(chalk.green(`Train Classifier from ${req.ip}`));
     const result = await Bot.saveTrainDataFromRequest(dataFromRequest.token, dataFromRequest.trainData)
     if(result.ok) {
-      const {status, ok, token} = result
-      res.status(status).json({ok, token});
+      const {status, ok} = result
+      res.status(status).json({ok});
+    } else {
+      const {status, ok, errors} = result
+      res.status(status).json({ok, errors});
+    }
+  } else {
+    console.log(chalk.yellow(`Try to request from ${req.ip} with: ${JSON.stringify(dataFromRequest)}`));
+    res.status(400).json({ok: false, errors: ['Invalid request data']});
+  }
+});
+
+app.post('/api/classify', async (req, res) => {
+  
+  const dataFromRequest = req.body;
+  if(!!dataFromRequest.token && !!dataFromRequest.text) {
+    console.log(chalk.green(`Train Classifier from ${req.ip}`));
+    const result = await Bot.classifyFromRequest(dataFromRequest.token, dataFromRequest.text)
+    if(result.ok) {
+      const {status, ok, answer} = result
+      res.status(status).json({ok, answer});
     } else {
       const {status, ok, errors} = result
       res.status(status).json({ok, errors});

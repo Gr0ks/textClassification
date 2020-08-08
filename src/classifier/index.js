@@ -20,10 +20,10 @@ module.exports = class Classifier {
   }
 
   async classify(id, data) {
-    let result = null
-    await this.classifier.load(`${id}.json`, null, function(err, classifier) {
-      result = this.classifier.classify(data)
-    });
-    return result
+    return new Promise((res, rej) => {
+      natural.BayesClassifier.load(`${id}.json`, null, function(err, classifier) {
+        res(classifier.classify(data))
+      });
+    })
   }
 }
