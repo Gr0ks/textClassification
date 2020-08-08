@@ -9,12 +9,12 @@ module.exports = class Classifier {
    * 
    * @param {Object} trainingData - {result1: [data1, data2, ...], result2: [data3, data4, ...], ...}
    */
-  async train(id ,trainingData) {
+  async train(id, trainingData) {
     for(let key in trainingData) {
       trainingData[key].forEach(data=>{this.classifier.addDocument(data, key);});	
     }
-    classifier.train();
-    classifier.save(`./classifiers/${id}.json`, function(err, classifier) {
+    this.classifier.train();
+    this.classifier.save(`${id}.json`, function(err, classifier) {
       // the classifier is saved to the classifier.json file!
     });
   }
