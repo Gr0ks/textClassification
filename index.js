@@ -4,7 +4,9 @@ const Bot = require('./src/bot/index.js');
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({limit: "100mb", parameterLimit: 100000000}));
+//app.use(bodyParser.json({limit: "100mb", parameterLimit: 100000000}));
+app.use(express.urlencoded({limit: '100mb', extended: true, parameterLimit: 100000000}));
 
 app.post('/api/createClassifier', async (req, res) => {
   
@@ -48,7 +50,7 @@ app.post('/api/classify', async (req, res) => {
   
   const dataFromRequest = req.body;
   if(!!dataFromRequest.token && !!dataFromRequest.text) {
-    console.log(chalk.green(`Train Classifier from ${req.ip}`));
+    console.log(chalk.green(`Classify from ${req.ip}`));
     const result = await Bot.classifyFromRequest(dataFromRequest.token, dataFromRequest.text)
     if(result.ok) {
       const {status, ok, answer} = result

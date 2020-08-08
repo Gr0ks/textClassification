@@ -75,7 +75,7 @@ module.exports = class Bot {
         const classifierBot = new Bot(bot)
         const result = await classifierBot.classify(data)
         if(result) {
-          console.log(chalk.green(`Classify ${bot.id} - ${data}`));
+          console.log(chalk.green(`Classify ${bot.id}`));
           return {
             status: 200,
             ok: true,
