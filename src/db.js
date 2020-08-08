@@ -3,16 +3,21 @@ class DB {
       this.recordsCount = 0
     }
 
-    async saveBotToDB({name, id, email}) {
-      this[id] = {id,name,email}
+    async saveToDB(target, type, data) {
+      if(!this[target]) {
+        this[target] = {}
+      }
+      this[target][type] = data
       this.recordsCount++
-      this.log()
       return true
     }
 
-    async saveTrainData(id, data) {
-        this[id].trainData = data
-        return true
+    async readFromDB(target, type) {
+      if(!!this[target]) {
+        if(!!this[target][type]) {
+          return this[target][type]
+        }
+      }
     }
 
     log() {

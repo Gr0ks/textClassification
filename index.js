@@ -1,7 +1,6 @@
 const express = require('express');
-const path = require('path');
 const chalk = require('chalk');
-const ClassifierBot = require('./src/classifierBot/index.js');
+const Bot = require('./src/bot/index.js');
 
 const app = express();
 
@@ -12,7 +11,7 @@ app.post('/api/createClassifier', async (req, res) => {
   const dataFromRequest = req.body;
   if(!!dataFromRequest.name && !!dataFromRequest.email) {
     console.log(chalk.green(`Create new Classifier from ${req.ip} with: ${JSON.stringify(dataFromRequest)}`));
-    const result = await ClassifierBot.createFromRequest(dataFromRequest)
+    const result = await Bot.createFromRequest(dataFromRequest)
     if(result.ok) {
       const {status, ok, token} = result
       res.status(status).json({ok, token});
